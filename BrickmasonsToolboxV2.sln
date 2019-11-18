@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickmasonsToolboxV2", "BrickmasonsToolboxV2\BrickmasonsToolboxV2.csproj", "{BFD44402-ABCA-467B-A297-631D97AD2F83}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{A4B40865-88D4-4FFF-BF22-7A90DDDC1BDC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
