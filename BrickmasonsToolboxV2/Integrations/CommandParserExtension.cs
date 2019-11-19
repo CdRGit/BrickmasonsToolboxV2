@@ -32,7 +32,48 @@ namespace BrickmasonsToolboxV2.Integrations
                 Node expr = (Node)res.Register(Expr());
                 if (res.error != null) return res;
 
-                return res.Success(new SayNode(expr, start, currentToken.end));
+                return res.Success(new SayNode(expr, start, expr.end));
+            }
+            // Tellraw command
+            if (currentToken.Matches("TT_KEYWORD", "TELLRAW"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                Node entity = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                Node json = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                return res.Success(new TellRawNode(entity, json, start, json.end));
+            }
+            // Message Command
+            if (currentToken.Matches("TT_KEYWORD", "TELL") || currentToken.Matches("TT_KEYWORD", "MSG") || currentToken.Matches("TT_KEYWORD", "W"))
+            {
+                string value = currentToken.value;
+
+                res.RegisterAdvance();
+                Advance();
+
+                Node entity = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                Node message = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                return res.Success(new MessageNode(value, entity, message, start, message.end));
+            }
+            // TeamMessage Command
+            if (currentToken.Matches("TT_KEYWORD", "TEAMMSG"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                Node expr = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                return res.Success(new TeamMessageNode(expr, start, expr.end));
             }
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));
