@@ -18,17 +18,17 @@ namespace BrickmasonsToolboxV2.Integrations
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Write(string text)
         {
-            throw new NotImplementedException();
+            form.Write(text);
         }
 
         public void WriteLine(string text)
         {
-            throw new NotImplementedException();
+            form.WriteLine(text);
         }
     }
 }

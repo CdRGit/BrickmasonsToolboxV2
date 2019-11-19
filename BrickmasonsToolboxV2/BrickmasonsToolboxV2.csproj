@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CustomProgrammingLanguage">
+    <Reference Include="CustomProgrammingLanguage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CustomProgrammingLanguageLib\CustomProgrammingLanguage\bin\Debug\CustomProgrammingLanguage.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -49,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integrations\CommandNodes.cs" />
+    <Compile Include="Integrations\CommandParserExtension.cs" />
     <Compile Include="Integrations\MainFormOutput.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
