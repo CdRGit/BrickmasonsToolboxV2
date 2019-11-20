@@ -40,8 +40,49 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitTeamMessageNode(n as TeamMessageNode, context);
             }
+            if (n is TagNode)
+            {
+                return VisitTagNode(n as TagNode, context);
+            }
+            if (n is MeNode)
+            {
+                return VisitMeNode(n as MeNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitMeNode(MeNode n, Context context)
+        {
+            Result res = new Result();
+            Value action = res.Register(Visit(n.action, context));
+            if (res.ShouldReturn()) return res;
+
+            fileOutput.WriteLine("me " + action);
+
+            return res.Success(Value.NULL);
+        }
+
+        private Result VisitTagNode(TagNode n, Context context)
+        {
+            Result res = new Result();
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+            if (n.mode == "list")
+            {
+                fileOutput.WriteLine("tag " + entity + " list");
+
+                return res.Success(Value.NULL);
+            }
+            else
+            {
+                Value tag = res.Register(Visit(n.tag, context));
+                if (res.ShouldReturn()) return res;
+
+                fileOutput.WriteLine("tag " + entity + " " + n.mode + " " + tag);
+
+                return res.Success(Value.NULL);
+            }
         }
 
         private Result VisitTellRawNode(TellRawNode n, Context context)
@@ -87,7 +128,7 @@ namespace BrickmasonsToolboxV2.Integrations
             Value value = res.Register(Visit(n.toMessage, context));
             if (res.ShouldReturn()) return res;
 
-            fileOutput.WriteLine("teammsg " + value.ToString());
+            fileOutput.WriteLine(n.type + " " + value.ToString());
 
             return res.Success(Value.NULL);
         }

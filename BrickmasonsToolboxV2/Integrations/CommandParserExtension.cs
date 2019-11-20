@@ -73,7 +73,59 @@ namespace BrickmasonsToolboxV2.Integrations
                 Node expr = (Node)res.Register(Expr());
                 if (res.error != null) return res;
 
-                return res.Success(new TeamMessageNode(expr, start, expr.end));
+                return res.Success(new TeamMessageNode("teammsg", expr, start, expr.end));
+            }
+            if (currentToken.Matches("TT_KEYWORD", "TM"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                Node expr = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                return res.Success(new TeamMessageNode("tm", expr, start, expr.end));
+            }
+            // Tag Command
+            if (currentToken.Matches("TT_KEYWORD", "TAG"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                Node entity = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                // tag entity list
+                if (currentToken.Matches("TT_KEYWORD", "LIST"))
+                {
+                    Position end = currentToken.end;
+
+                    res.RegisterAdvance();
+                    Advance();
+
+                    // Done!
+                    return res.Success(new TagNode(entity, "list", start, end));
+                }
+                string mode = currentToken.value.ToLower();
+
+                res.RegisterAdvance();
+                Advance();
+                // tag entity (add / remove) tag_name
+                Node tag = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                // Done!
+                return res.Success(new TagNode(entity, mode, tag, start, tag.end));
+            }
+            // Me Command
+            if (currentToken.Matches("TT_KEYWORD", "ME"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                Node action = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                return res.Success(new MeNode(action, start, action.end));
             }
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));

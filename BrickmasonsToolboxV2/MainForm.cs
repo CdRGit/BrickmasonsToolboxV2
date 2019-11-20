@@ -31,7 +31,11 @@ namespace BrickmasonsToolboxV2
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            LanguageSpecs specs = new LanguageSpecs().IgnoreSpaces().IgnoreTabs().IncludeTrueFalse().WithKeywords(("say", "SAY"), ("tellraw","TELLRAW"), ("msg", "MSG"), ("tell", "TELL"), ("w", "W"), ("teammsg", "TEAMMSG")).WithParserExtensions(new CommandParserExtension()).WithBuiltInFuctions().WithInterpreterExtensions(new CommandInterpreterExtension(new MainFormOutput(this)));
+            LanguageSpecs specs = new LanguageSpecs().IgnoreSpaces().IgnoreTabs().IncludeTrueFalse()
+                .WithKeywords(("say", "SAY"), ("tellraw","TELLRAW"), ("msg", "MSG"), ("tell", "TELL"), ("w", "W"), ("teammsg", "TEAMMSG"), ("tm", "TM"), ("tag", "TAG"), ("add", "ADD"), ("list", "LIST"), ("remove", "REMOVE"), ("me", "ME"), ("kill", "KILL"))
+                .WithParserExtensions(new CommandParserExtension())
+                .WithBuiltInFuctions()
+                .WithInterpreterExtensions(new CommandInterpreterExtension(new MainFormOutput(this)));
 
             Compiler.Run("<box>", textBox1Temp.Text, specs, new Interpreter.Context(new SymbolTable(), "<program>", null, new Position(), specs), new MainFormOutput(this));
         }
