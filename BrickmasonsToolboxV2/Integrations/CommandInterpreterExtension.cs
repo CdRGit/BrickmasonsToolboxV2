@@ -81,7 +81,9 @@ namespace BrickmasonsToolboxV2.Integrations
 
             if (count is Number)
             {
+                fileOutput.WriteLine("clear " + entity.ToString() + " " + item.ToString() + " " + count.ToString());
 
+                return res.Success(Value.NULL);
             }
 
             return res.Failure(new RuntimeError(n.count.start, n.count.end, "Count was meant to be a number", context));
