@@ -48,8 +48,23 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitMeNode(n as MeNode, context);
             }
+            if (n is KillNode)
+            {
+                return VisitKillNode(n as KillNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitKillNode(KillNode n, Context context)
+        {
+            Result res = new Result();
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+
+            fileOutput.WriteLine("kill " + entity);
+
+            return res.Success(Value.NULL);
         }
 
         private Result VisitMeNode(MeNode n, Context context)

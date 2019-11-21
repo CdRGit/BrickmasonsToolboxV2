@@ -96,4 +96,16 @@ namespace BrickmasonsToolboxV2.Integrations
             this.end = end;
         }
     }
+
+    public class KillNode : Node
+    {
+        internal Node entity;
+
+        public KillNode(Node entity, Position start, Position end)
+        {
+            this.entity = entity;
+            this.start = start;
+            this.end = end;
+        }
+    }
 }

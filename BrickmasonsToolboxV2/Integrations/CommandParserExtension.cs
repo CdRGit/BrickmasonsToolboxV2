@@ -127,6 +127,17 @@ namespace BrickmasonsToolboxV2.Integrations
 
                 return res.Success(new MeNode(action, start, action.end));
             }
+            // Kill Command
+            if (currentToken.Matches("TT_KEYWORD", "KILL"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                Node entity = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                return res.Success(new KillNode(entity, start, entity.end));
+            }
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));
         }
