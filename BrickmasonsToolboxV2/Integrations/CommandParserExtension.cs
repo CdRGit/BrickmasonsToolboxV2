@@ -171,6 +171,21 @@ namespace BrickmasonsToolboxV2.Integrations
 
                 return res.Success(new FunctionNode(expr, start, expr.end));
             }
+            // Clear Command
+            if (currentToken.Matches("TT_KEYWORD", "CLEAR"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                Node entity = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+                Node item = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+                Node count = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                return res.Success(new ClearNode(entity, item, count, start, count.end));
+            }
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));
         }

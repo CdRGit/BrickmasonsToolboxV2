@@ -134,4 +134,20 @@ namespace BrickmasonsToolboxV2.Integrations
             this.end = end;
         }
     }
+
+    public class ClearNode : Node
+    {
+        internal Node entity;
+        internal Node item;
+        internal Node count;
+
+        public ClearNode(Node entity, Node item, Node count, Position start, Position end)
+        {
+            this.entity = entity;
+            this.item = item;
+            this.count = count;
+            this.start = start;
+            this.end = end;
+        }
+    }
 }

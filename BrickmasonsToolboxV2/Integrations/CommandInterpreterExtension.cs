@@ -1,6 +1,7 @@
 ﻿using CustomProgrammingLanguage.Compiling;
 using CustomProgrammingLanguage.Compiling.Nodes;
 using CustomProgrammingLanguage.Compiling.Values;
+using CustomProgrammingLanguage.Compiling.Errors;
 using CustomProgrammingLanguage.Extensions;
 using CustomProgrammingLanguage.OutputMethods;
 using System;
@@ -60,8 +61,30 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitFunctionNode(n as FunctionNode, context);
             }
+            if (n is ClearNode)
+            {
+                return VisitClearNode(n as ClearNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitClearNode(ClearNode n, Context context)
+        {
+            Result res = new Result();
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+            Value item = res.Register(Visit(n.item, context));
+            if (res.ShouldReturn()) return res;
+            Value count = res.Register(Visit(n.count, context));
+            if (res.ShouldReturn()) return res;
+
+            if (count is Number)
+            {
+
+            }
+
+            return res.Failure(new RuntimeError(n.count.start, n.count.end, "Count was meant to be a number", context));
         }
 
         private Result VisitFunctionNode(FunctionNode n, Context context)
