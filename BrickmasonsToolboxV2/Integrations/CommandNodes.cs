@@ -108,4 +108,18 @@ namespace BrickmasonsToolboxV2.Integrations
             this.end = end;
         }
     }
+
+    public class GameModeNode : Node
+    {
+        internal string mode;
+        internal Node entity;
+
+        public GameModeNode(string mode, Node entity, Position start, Position end)
+        {
+            this.mode = mode;
+            this.entity = entity;
+            this.start = start;
+            this.end = end;
+        }
+    }
 }

@@ -138,6 +138,28 @@ namespace BrickmasonsToolboxV2.Integrations
 
                 return res.Success(new KillNode(entity, start, entity.end));
             }
+            // Gamemode Command
+            if (currentToken.Matches("TT_KEYWORD", "GAMEMODE"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                if (currentToken.type == "TT_KEYWORD" && new string[] { "CREATIVE", "SURVIVAL", "SPECTATOR", "ADVENTURE" }.Contains(currentToken.value))
+                {
+                    string mode = currentToken.value.ToLower();
+                    res.RegisterAdvance();
+                    Advance();
+
+                    Node entity = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+
+                    return res.Success(new GameModeNode(mode, entity, start, entity.end));
+                }
+                else
+                {
+                    return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No gamemode here"));
+                }
+            }
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));
         }

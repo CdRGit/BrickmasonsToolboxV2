@@ -52,8 +52,23 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitKillNode(n as KillNode, context);
             }
+            if (n is GameModeNode)
+            {
+                return VisitGameModeNode(n as GameModeNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitGameModeNode(GameModeNode n, Context context)
+        {
+            Result res = new Result();
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+
+            fileOutput.WriteLine("gamemode " + n.mode + " " + entity);
+
+            return res.Success(Value.NULL);
         }
 
         private Result VisitKillNode(KillNode n, Context context)
