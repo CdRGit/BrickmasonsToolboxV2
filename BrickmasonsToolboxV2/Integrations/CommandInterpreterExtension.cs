@@ -65,8 +65,21 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitClearNode(n as ClearNode, context);
             }
+            if (n is DifficultyNode)
+            {
+                return VisitDifficultyNode(n as DifficultyNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitDifficultyNode(DifficultyNode n, Context context)
+        {
+            Result res = new Result();
+
+            fileOutput.WriteLine("difficulty " + n.difficulty);
+
+            return res.Success(Value.NULL);
         }
 
         private Result VisitClearNode(ClearNode n, Context context)

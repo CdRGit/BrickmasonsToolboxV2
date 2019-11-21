@@ -186,6 +186,49 @@ namespace BrickmasonsToolboxV2.Integrations
 
                 return res.Success(new ClearNode(entity, item, count, start, count.end));
             }
+            // Difficulty Commad
+            if (currentToken.Matches("TT_KEYWORD", "DIFFICULTY"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                if (currentToken.Matches("TT_KEYWORD", "EASY"))
+                {
+                    Position end = currentToken.end;
+                    res.RegisterAdvance();
+                    Advance();
+
+                    return res.Success(new DifficultyNode("easy", start, end));
+                }
+
+                if (currentToken.Matches("TT_KEYWORD", "NORMAL"))
+                {
+                    Position end = currentToken.end;
+                    res.RegisterAdvance();
+                    Advance();
+
+                    return res.Success(new DifficultyNode("normal", start, end));
+                }
+
+                if (currentToken.Matches("TT_KEYWORD", "HARD"))
+                {
+                    Position end = currentToken.end;
+                    res.RegisterAdvance();
+                    Advance();
+
+                    return res.Success(new DifficultyNode("hard", start, end));
+                }
+
+                if (currentToken.Matches("TT_KEYWORD", "PEACEFUL"))
+                {
+                    Position end = currentToken.end;
+                    res.RegisterAdvance();
+                    Advance();
+
+                    return res.Success(new DifficultyNode("peaceful", start, end));
+                }
+            }
+
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));
         }

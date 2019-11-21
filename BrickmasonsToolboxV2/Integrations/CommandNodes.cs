@@ -150,4 +150,16 @@ namespace BrickmasonsToolboxV2.Integrations
             this.end = end;
         }
     }
+
+    public class DifficultyNode : Node
+    {
+        internal string difficulty;
+
+        public DifficultyNode(string difficulty, Position start, Position end)
+        {
+            this.difficulty = difficulty;
+            this.start = start;
+            this.end = end;
+        }
+    }
 }
