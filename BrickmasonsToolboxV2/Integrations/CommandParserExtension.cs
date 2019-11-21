@@ -160,6 +160,17 @@ namespace BrickmasonsToolboxV2.Integrations
                     return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No gamemode here"));
                 }
             }
+            // Function Command
+            if (currentToken.Matches("TT_KEYWORD", "FUNCTION"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                Node expr = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                return res.Success(new FunctionNode(expr, start, expr.end));
+            }
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));
         }

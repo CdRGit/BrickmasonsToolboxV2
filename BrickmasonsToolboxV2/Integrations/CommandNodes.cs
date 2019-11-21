@@ -122,4 +122,16 @@ namespace BrickmasonsToolboxV2.Integrations
             this.end = end;
         }
     }
+
+    public class FunctionNode : Node
+    {
+        internal Node expr;
+
+        public FunctionNode(Node expr, Position start, Position end)
+        {
+            this.expr = expr;
+            this.start = start;
+            this.end = end;
+        }
+    }
 }

@@ -32,7 +32,9 @@ namespace BrickmasonsToolboxV2
         private void Button1_Click(object sender, EventArgs e)
         {
             LanguageSpecs specs = new LanguageSpecs().IgnoreSpaces().IgnoreTabs().IncludeTrueFalse()
-                .WithKeywords(("say", "SAY"), ("tellraw","TELLRAW"), ("msg", "MSG"), ("tell", "TELL"), ("w", "W"), ("teammsg", "TEAMMSG"), ("tm", "TM"), ("tag", "TAG"), ("add", "ADD"), ("list", "LIST"), ("remove", "REMOVE"), ("me", "ME"), ("kill", "KILL"), ("gamemode", "GAMEMODE"), ("creative", "CREATIVE"), ("spectator", "SPECTATOR"), ("survival", "SURVIVAL"), ("adventure", "ADVENTURE"))
+                .WithKeywords(("say", "SAY"), ("tellraw","TELLRAW"), ("msg", "MSG"), ("tell", "TELL"), ("w", "W"), ("teammsg", "TEAMMSG"), ("tm", "TM"), ("tag", "TAG"), 
+                ("add", "ADD"), ("list", "LIST"), ("remove", "REMOVE"), ("me", "ME"), ("kill", "KILL"), ("gamemode", "GAMEMODE"), ("creative", "CREATIVE"), 
+                ("spectator", "SPECTATOR"), ("survival", "SURVIVAL"), ("adventure", "ADVENTURE"), ("function", "FUNCTION"))
                 .WithParserExtensions(new CommandParserExtension())
                 .WithBuiltInFuctions()
                 .WithInterpreterExtensions(new CommandInterpreterExtension(new MainFormOutput(this)));
