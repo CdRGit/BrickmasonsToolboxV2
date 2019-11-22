@@ -73,8 +73,42 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitEffectNode(n as EffectNode, context);
             }
+            if (n is GiveNode)
+            {
+                return VisitGiveNode(n as GiveNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitGiveNode(GiveNode n, Context context)
+        {
+            Result res = new Result();
+
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+            Value item = res.Register(Visit(n.item, context));
+            if (res.ShouldReturn()) return res;
+
+            if (n.count == null)
+            {
+                fileOutput.WriteLine("give " + entity.ToString() + " " + item.ToString());
+
+                return res.Success(Value.NULL);
+            }
+            Value count = res.Register(Visit(n.count, context));
+            if (res.ShouldReturn()) return res;
+
+            if (count is Number)
+            {
+                fileOutput.WriteLine("give " + entity.ToString() + " " + item.ToString() + " " + count);
+
+                return res.Success(Value.NULL);
+            }
+            else
+            {
+                return res.Failure(new RuntimeError(n.count.start, n.count.end, "Count was meant to be a number", context));
+            }
         }
 
         private Result VisitEffectNode(EffectNode n, Context context)

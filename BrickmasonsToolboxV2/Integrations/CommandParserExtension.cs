@@ -297,7 +297,7 @@ namespace BrickmasonsToolboxV2.Integrations
                 if (res.error != null) return res;
 
                 // Check if count is given
-                Node count = (Node)res.Register(Expr());
+                Node count = (Node)res.TryRegister(Expr());
                 if (res.error != null) return res;
                 if (count == null)
                 {
