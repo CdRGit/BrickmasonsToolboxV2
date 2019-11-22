@@ -184,4 +184,20 @@ namespace BrickmasonsToolboxV2.Integrations
             this.hideParticles = hideParticles;
         }
     }
+
+    public class GiveNode : Node
+    {
+        internal Node entity;
+        internal Node item;
+        internal Node count;
+
+        public GiveNode(Position start, Position end, Node entity, Node item, Node count)
+        {
+            this.start = start;
+            this.end = end;
+            this.entity = entity;
+            this.item = item;
+            this.count = count;
+        }
+    }
 }
