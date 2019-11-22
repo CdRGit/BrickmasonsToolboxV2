@@ -284,6 +284,28 @@ namespace BrickmasonsToolboxV2.Integrations
                     return res.Success(new EffectNode(start, effect.end, "clear", entity, effect, null, null, null));
                 }
             }
+            // Give Command
+            if (currentToken.Matches("TT_KEYWORD", "GIVE"))
+            {
+                // Give "entity" "item" <count>
+                res.RegisterAdvance();
+                Advance();
+
+                Node entity = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+                Node item = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                // Check if count is given
+                Node count = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+                if (count == null)
+                {
+                    Reverse(res.toReverseCount);
+                    return res.Success(new GiveNode(start, item.end, entity, item, null));
+                }
+                return res.Success(new GiveNode(start, count.end, entity, item, count));
+            }
 
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));
