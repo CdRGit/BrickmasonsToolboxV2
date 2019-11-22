@@ -69,8 +69,122 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitDifficultyNode(n as DifficultyNode, context);
             }
+            if (n is EffectNode)
+            {
+                return VisitEffectNode(n as EffectNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitEffectNode(EffectNode n, Context context)
+        {
+            Result res = new Result();
+
+            if (n.mode == "give")
+            {
+                Value entity = res.Register(Visit(n.entity, context));
+                if (res.ShouldReturn()) return res;
+
+                Value effect = res.Register(Visit(n.effect, context));
+                if (res.ShouldReturn()) return res;
+
+                if (n.duration == null)
+                {
+                    fileOutput.WriteLine("effect give " + entity.ToString() + " " + effect.ToString());
+
+                    return res.Success(Value.NULL);
+                }
+
+                if (n.amplifier == null)
+                {
+                    Value duration2 = res.Register(Visit(n.duration, context));
+                    if (res.ShouldReturn()) return res;
+
+                    if (duration2 is Number)
+                    {
+                        fileOutput.WriteLine("effect give " + entity.ToString() + " " + effect.ToString() + " " + duration2);
+
+                        return res.Success(Value.NULL);
+                    }
+                    else
+                    {
+                        return res.Failure(new RuntimeError(n.duration.start, n.duration.end, "Duration was meant to be a number", context));
+                    }
+                }
+
+                if (n.hideParticles == null)
+                {
+                    Value duration2 = res.Register(Visit(n.duration, context));
+                    if (res.ShouldReturn()) return res;
+
+                    if (duration2 is Number)
+                    {
+                        Value amplifier = res.Register(Visit(n.amplifier, context));
+                        if (res.ShouldReturn()) return res;
+
+                        if (amplifier is Number)
+                        {
+                            fileOutput.WriteLine("effect give " + entity.ToString() + " " + effect.ToString() + " " + duration2 + " " + amplifier);
+
+                            return res.Success(Value.NULL);
+                        }
+                        else
+                        {
+                            return res.Failure(new RuntimeError(n.amplifier.start, n.amplifier.end, "Amplifier was meant to be a number", context));
+                        }
+                    }
+                    else
+                    {
+                        return res.Failure(new RuntimeError(n.duration.start, n.duration.end, "Duration was meant to be a number", context));
+                    }
+                }
+
+                Value duration = res.Register(Visit(n.duration, context));
+                if (res.ShouldReturn()) return res;
+
+                if (duration is Number)
+                {
+                    Value amplifier = res.Register(Visit(n.amplifier, context));
+                    if (res.ShouldReturn()) return res;
+
+                    if (amplifier is Number)
+                    {
+                        Value hideParticles = res.Register(Visit(n.hideParticles, context));
+                        if (res.ShouldReturn()) return res;
+
+                        fileOutput.WriteLine("effect give " + entity.ToString() + " " + effect.ToString() + " " + duration + " " + amplifier + " " + (hideParticles.IsTrue() ? "true" : "false"));
+
+                        return res.Success(Value.NULL);
+                    }
+                    else
+                    {
+                        return res.Failure(new RuntimeError(n.amplifier.start, n.amplifier.end, "Amplifier was meant to be a number", context));
+                    }
+                }
+                else
+                {
+                    return res.Failure(new RuntimeError(n.duration.start, n.duration.end, "Duration was meant to be a number", context));
+                }
+            }
+            else
+            {
+                Value entity = res.Register(Visit(n.entity, context));
+                if (res.ShouldReturn()) return res;
+
+                if (n.effect == null)
+                {
+                    fileOutput.WriteLine("effect clear " + entity.ToString());
+
+                    return res.Success(Value.NULL);
+                }
+                Value effect = res.Register(Visit(n.effect, context));
+                if (res.ShouldReturn()) return res;
+
+                fileOutput.WriteLine("effect clear " + entity.ToString() + " " + effect.ToString());
+
+                return res.Success(Value.NULL);
+            }
         }
 
         private Result VisitDifficultyNode(DifficultyNode n, Context context)

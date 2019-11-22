@@ -186,7 +186,7 @@ namespace BrickmasonsToolboxV2.Integrations
 
                 return res.Success(new ClearNode(entity, item, count, start, count.end));
             }
-            // Difficulty Commad
+            // Difficulty Command
             if (currentToken.Matches("TT_KEYWORD", "DIFFICULTY"))
             {
                 res.RegisterAdvance();
@@ -226,6 +226,62 @@ namespace BrickmasonsToolboxV2.Integrations
                     Advance();
 
                     return res.Success(new DifficultyNode("peaceful", start, end));
+                }
+            }
+            // Effect Command
+            if (currentToken.Matches("TT_KEYWORD", "EFFECT"))
+            {
+                res.RegisterAdvance();
+                Advance();
+
+                if (currentToken.Matches("TT_KEYWORD", "GIVE"))
+                {
+                    // Effect Give "entity" "effect" <duration> <amplifier> <hideParticles>
+                    res.RegisterAdvance();
+                    Advance();
+                    Node entity = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+                    Node effect = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+                    Node duration = res.TryRegister(Expr());
+                    if (res.error != null) return res;
+                    if (duration == null)
+                    {
+                        Reverse(res.toReverseCount);
+                        return res.Success(new EffectNode(start, effect.end, "give", entity, effect, null, null, null));
+                    }
+                    Node amplifier = res.TryRegister(Expr());
+                    if (res.error != null) return res;
+                    if (amplifier == null)
+                    {
+                        Reverse(res.toReverseCount);
+                        return res.Success(new EffectNode(start, duration.end, "give", entity, effect, duration, null, null));
+                    }
+                    Node hideParticles = res.TryRegister(Expr());
+                    if (res.error != null) return res;
+                    if (hideParticles == null)
+                    {
+                        Reverse(res.toReverseCount);
+                        return res.Success(new EffectNode(start, amplifier.end, "give", entity, effect, duration, amplifier, null));
+                    }
+                    return res.Success(new EffectNode(start, hideParticles.end, "give", entity, effect, duration, amplifier, hideParticles));
+                }
+                else if (currentToken.Matches("TT_KEYWORD", "CLEAR"))
+                {
+                    // Effect Clear "entity" <"effect">
+                    res.RegisterAdvance();
+                    Advance();
+                    Node entity = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+
+                    Node effect = res.TryRegister(Expr());
+                    if (res.error != null) return res;
+                    if (effect == null)
+                    {
+                        Reverse(res.toReverseCount);
+                        return res.Success(new EffectNode(start, entity.end, "clear", entity, null, null, null, null));
+                    }
+                    return res.Success(new EffectNode(start, effect.end, "clear", entity, effect, null, null, null));
                 }
             }
 

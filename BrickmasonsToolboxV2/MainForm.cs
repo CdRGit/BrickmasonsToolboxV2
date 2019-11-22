@@ -35,7 +35,7 @@ namespace BrickmasonsToolboxV2
                 .WithKeywords(("say", "SAY"), ("tellraw","TELLRAW"), ("msg", "MSG"), ("tell", "TELL"), ("w", "W"), ("teammsg", "TEAMMSG"), ("tm", "TM"), ("tag", "TAG"), 
                 ("add", "ADD"), ("list", "LIST"), ("remove", "REMOVE"), ("me", "ME"), ("kill", "KILL"), ("gamemode", "GAMEMODE"), ("creative", "CREATIVE"), 
                 ("spectator", "SPECTATOR"), ("survival", "SURVIVAL"), ("adventure", "ADVENTURE"), ("function", "FUNCTION"), ("clear", "CLEAR"), ("difficulty", "DIFFICULTY"),
-                ("easy", "EASY"), ("normal", "NORMAL"), ("hard", "HARD"), ("peaceful", "PEACEFUL"))
+                ("easy", "EASY"), ("normal", "NORMAL"), ("hard", "HARD"), ("peaceful", "PEACEFUL"), ("effect", "EFFECT"), ("give", "GIVE"))
                 .WithParserExtensions(new CommandParserExtension())
                 .WithBuiltInFuctions()
                 .WithInterpreterExtensions(new CommandInterpreterExtension(new MainFormOutput(this)));

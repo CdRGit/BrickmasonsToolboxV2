@@ -162,4 +162,26 @@ namespace BrickmasonsToolboxV2.Integrations
             this.end = end;
         }
     }
+
+    public class EffectNode : Node
+    {
+        internal string mode;
+        internal Node entity;
+        internal Node effect;
+        internal Node duration;
+        internal Node amplifier;
+        internal Node hideParticles;
+
+        public EffectNode(Position start, Position end, string mode, Node entity, Node effect, Node duration, Node amplifier, Node hideParticles)
+        {
+            this.start = start;
+            this.end = end;
+            this.mode = mode;
+            this.entity = entity;
+            this.effect = effect;
+            this.duration = duration;
+            this.amplifier = amplifier;
+            this.hideParticles = hideParticles;
+        }
+    }
 }
