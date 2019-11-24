@@ -306,6 +306,104 @@ namespace BrickmasonsToolboxV2.Integrations
                 }
                 return res.Success(new GiveNode(start, count.end, entity, item, count));
             }
+            // XP Command
+            if (currentToken.Matches("TT_KEYWORD", "XP"))
+            {
+                // XP add|set|query
+                res.RegisterAdvance();
+                Advance();
+
+                if (currentToken.Matches("TT_KEYWORD", "ADD"))
+                {
+                    // XP add "entity" amount <levels|points>
+                    res.RegisterAdvance();
+                    Advance();
+
+                    Node entity = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+                    Node amount = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+                    // Check if levels/points is given
+                    if (currentToken.Matches("TT_KEYWORD", "LEVELS"))
+                    {
+                        // Levels
+                        Position end = currentToken.end;
+                        res.RegisterAdvance();
+                        Advance();
+                        return res.Success(new XPNodeAdd(start, end, "xp", entity, amount, "levels"));
+                    }
+                    if (currentToken.Matches("TT_KEYWORD", "POINTS"))
+                    {
+                        // Points
+                        Position end = currentToken.end;
+                        res.RegisterAdvance();
+                        Advance();
+                        return res.Success(new XPNodeAdd(start, end, "xp", entity, amount, "points"));
+                    }
+                    // Neither
+                    return res.Success(new XPNodeAdd(start, amount.end, "xp", entity, amount, "neither"));
+                }
+
+                if (currentToken.Matches("TT_KEYWORD", "SET"))
+                {
+                    // XP set "entity" amount <levels|points>
+                    res.RegisterAdvance();
+                    Advance();
+
+                    Node entity = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+                    Node amount = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+                    // Check if levels/points is given
+                    if (currentToken.Matches("TT_KEYWORD", "LEVELS"))
+                    {
+                        // Levels
+                        Position end = currentToken.end;
+                        res.RegisterAdvance();
+                        Advance();
+                        return res.Success(new XPNodeSet(start, end, "xp", entity, amount, "levels"));
+                    }
+                    if (currentToken.Matches("TT_KEYWORD", "POINTS"))
+                    {
+                        // Points
+                        Position end = currentToken.end;
+                        res.RegisterAdvance();
+                        Advance();
+                        return res.Success(new XPNodeSet(start, end, "xp", entity, amount, "points"));
+                    }
+                    // Neither
+                    return res.Success(new XPNodeSet(start, amount.end, "xp", entity, amount, "neither"));
+                }
+
+                if (currentToken.Matches("TT_KEYWORD", "QUERY"))
+                {
+                    // XP query "entity" levels|points
+                    res.RegisterAdvance();
+                    Advance();
+
+                    Node entity = (Node)res.Register(Expr());
+                    if (res.error != null) return res;
+                    // Check whether it is levels or points
+                    if (currentToken.Matches("TT_KEYWORD", "LEVELS"))
+                    {
+                        // Levels
+                        Position end = currentToken.end;
+                        res.RegisterAdvance();
+                        Advance();
+                        return res.Success(new XPNodeQuery(start, end, "xp", entity, "levels"));
+                    }
+                    if (currentToken.Matches("TT_KEYWORD", "POINTS"))
+                    {
+                        // Points
+                        Position end = currentToken.end;
+                        res.RegisterAdvance();
+                        Advance();
+                        return res.Success(new XPNodeQuery(start, end, "xp", entity, "points"));
+                    }
+                    // Neither
+                    return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "Expected levels / points"));
+                }
+            }
 
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));

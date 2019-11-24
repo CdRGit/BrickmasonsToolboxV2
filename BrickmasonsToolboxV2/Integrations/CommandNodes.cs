@@ -200,4 +200,55 @@ namespace BrickmasonsToolboxV2.Integrations
             this.count = count;
         }
     }
+
+    public class XPNodeAdd : Node
+    {
+        internal string alias;
+        internal Node entity;
+        internal Node amount;
+        internal string type;
+
+        public XPNodeAdd(Position start, Position end, string alias, Node entity, Node amount, string type)
+        {
+            this.start = start;
+            this.end = end;
+            this.alias = alias;
+            this.entity = entity;
+            this.amount = amount;
+            this.type = type;
+        }
+    }
+    public class XPNodeSet : Node
+    {
+        internal string alias;
+        internal Node entity;
+        internal Node amount;
+        internal string type;
+
+        public XPNodeSet(Position start, Position end, string alias, Node entity, Node amount, string type)
+        {
+            this.start = start;
+            this.end = end;
+            this.alias = alias;
+            this.entity = entity;
+            this.amount = amount;
+            this.type = type;
+        }
+    }
+
+    public class XPNodeQuery : Node
+    {
+        internal string alias;
+        internal Node entity;
+        internal string type;
+
+        public XPNodeQuery(Position start, Position end, string alias, Node entity, string type)
+        {
+            this.start = start;
+            this.end = end;
+            this.alias = alias;
+            this.entity = entity;
+            this.type = type;
+        }
+    }
 }
