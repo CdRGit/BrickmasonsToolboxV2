@@ -251,4 +251,13 @@ namespace BrickmasonsToolboxV2.Integrations
             this.type = type;
         }
     }
+
+    public class SeedNode : Node
+    {
+        public SeedNode(Position start, Position end)
+        {
+            this.start = start;
+            this.end = end;
+        }
+    }
 }

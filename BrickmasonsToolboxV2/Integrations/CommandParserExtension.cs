@@ -501,6 +501,14 @@ namespace BrickmasonsToolboxV2.Integrations
                     return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "Expected levels / points"));
                 }
             }
+            // Seed Command
+            if (currentToken.Matches("TT_KEYWORD", "SEED"))
+            {
+                Position end = currentToken.end;
+                res.RegisterAdvance();
+                Advance();
+                return res.Success(new SeedNode(start, end));
+            }
 
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));

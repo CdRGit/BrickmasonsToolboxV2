@@ -89,8 +89,21 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitXPNodeQuery(n as XPNodeQuery, context);
             }
+            if (n is SeedNode)
+            {
+                return VisitSeedNode(n as SeedNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitSeedNode(SeedNode n, Context context)
+        {
+            Result res = new Result();
+
+            fileOutput.WriteLine("seed");
+
+            return res.Success(Value.NULL);
         }
 
         private Result VisitXPNodeQuery(XPNodeQuery n, Context context)
