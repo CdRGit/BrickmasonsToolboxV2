@@ -77,8 +77,64 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitGiveNode(n as GiveNode, context);
             }
+            if (n is XPNodeAdd)
+            {
+                return VisitXPNodeAdd(n as XPNodeAdd, context);
+            }
+            if (n is XPNodeSet)
+            {
+                return VisitXPNodeSet(n as XPNodeSet, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitXPNodeAdd(XPNodeAdd n, Context context)
+        {
+            Result res = new Result();
+
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+            Value amount = res.Register(Visit(n.amount, context));
+            if (res.ShouldReturn()) return res;
+
+            if (amount is Number)
+            {
+                if (n.type == "neither")
+                    fileOutput.WriteLine(n.alias + " add " + entity.ToString() + " " + amount.ToString());
+                else
+                    fileOutput.WriteLine(n.alias + " add " + entity.ToString() + " " + amount.ToString() + " " + n.type);
+
+                return res.Success(Value.NULL);
+            }
+            else
+            {
+                return res.Failure(new RuntimeError(n.amount.start, n.amount.end, "Amount was meant to be a number", context));
+            }
+        }
+
+        private Result VisitXPNodeSet(XPNodeSet n, Context context)
+        {
+            Result res = new Result();
+
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+            Value amount = res.Register(Visit(n.amount, context));
+            if (res.ShouldReturn()) return res;
+
+            if (amount is Number)
+            {
+                if (n.type == "neither")
+                    fileOutput.WriteLine(n.alias + " set " + entity.ToString() + " " + amount.ToString());
+                else
+                    fileOutput.WriteLine(n.alias + " set " + entity.ToString() + " " + amount.ToString() + " " + n.type);
+
+                return res.Success(Value.NULL);
+            }
+            else
+            {
+                return res.Failure(new RuntimeError(n.amount.start, n.amount.end, "Amount was meant to be a number", context));
+            }
         }
 
         private Result VisitGiveNode(GiveNode n, Context context)
