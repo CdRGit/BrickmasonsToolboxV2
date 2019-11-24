@@ -85,8 +85,24 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitXPNodeSet(n as XPNodeSet, context);
             }
+            if (n is XPNodeQuery)
+            {
+                return VisitXPNodeQuery(n as XPNodeQuery, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitXPNodeQuery(XPNodeQuery n, Context context)
+        {
+            Result res = new Result();
+
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+
+            fileOutput.WriteLine(n.alias + " query " + entity.ToString() + " " + n.type);
+
+            return res.Success(Value.NULL);
         }
 
         private Result VisitXPNodeAdd(XPNodeAdd n, Context context)
