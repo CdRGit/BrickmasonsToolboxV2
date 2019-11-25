@@ -260,4 +260,20 @@ namespace BrickmasonsToolboxV2.Integrations
             this.end = end;
         }
     }
+
+    public class EnchantNode : Node
+    {
+        internal Node entity;
+        internal Node enchantment;
+        internal Node level;
+
+        public EnchantNode(Position start, Position end, Node entity, Node enchantment, Node level)
+        {
+            this.start = start;
+            this.end = end;
+            this.entity = entity;
+            this.enchantment = enchantment;
+            this.level = level;
+        }
+    }
 }

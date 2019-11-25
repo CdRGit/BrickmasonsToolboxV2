@@ -509,6 +509,27 @@ namespace BrickmasonsToolboxV2.Integrations
                 Advance();
                 return res.Success(new SeedNode(start, end));
             }
+            // Enchant Command
+            if (currentToken.Matches("TT_KEYWORD", "ENCHANT"))
+            {
+                // Enchant "entity" "enchantment" <level>
+                res.RegisterAdvance();
+                Advance();
+
+                Node entity = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+                Node enchantment = (Node)res.Register(Expr());
+                if (res.error != null) return res;
+
+                Node level = res.TryRegister(Expr());
+                if (res.error != null) return res;
+                if (level == null)
+                {
+                    Reverse(res.toReverseCount);
+                    return res.Success(new EnchantNode(start, enchantment.end, entity, enchantment, null));
+                }
+                return res.Success(new EnchantNode(start, level.end, entity, enchantment, level));
+            }
 
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));

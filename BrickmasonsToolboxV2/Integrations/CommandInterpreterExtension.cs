@@ -93,8 +93,41 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitSeedNode(n as SeedNode, context);
             }
+            if (n is EnchantNode)
+            {
+                return VisitEnchantNode(n as EnchantNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitEnchantNode(EnchantNode n, Context context)
+        {
+            Result res = new Result();
+            Value entity = res.Register(Visit(n.entity, context));
+            if (res.ShouldReturn()) return res;
+            Value enchantment = res.Register(Visit(n.enchantment, context));
+            if (res.ShouldReturn()) return res;
+            if (n.level != null)
+            {
+                Value level = res.Register(Visit(n.level, context));
+                if (res.ShouldReturn()) return res;
+
+                if (level is Number)
+                {
+                    fileOutput.WriteLine("enchant " + entity.ToString() + " " + enchantment.ToString() + " " + level.ToString());
+
+                    return res.Success(Value.NULL);
+                }
+
+                return res.Failure(new RuntimeError(n.level.start, n.level.end, "Count was meant to be a number", context));
+            }
+            else
+            {
+                fileOutput.WriteLine("enchant " + entity.ToString() + " " + enchantment.ToString());
+            }
+
+            return res.Success(Value.NULL);
         }
 
         private Result VisitSeedNode(SeedNode n, Context context)
