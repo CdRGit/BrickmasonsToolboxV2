@@ -1,4 +1,5 @@
 ﻿using BrickmasonsToolboxV2.Integrations;
+using BrickmasonsToolboxV2.Setup;
 using CustomProgrammingLanguage.Compiling;
 using System;
 using System.Collections.Generic;
@@ -31,15 +32,7 @@ namespace BrickmasonsToolboxV2
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            LanguageSpecs specs = new LanguageSpecs().IgnoreSpaces().IgnoreTabs().IncludeTrueFalse()
-                .WithKeywords(("say", "SAY"), ("tellraw","TELLRAW"), ("msg", "MSG"), ("tell", "TELL"), ("w", "W"), ("teammsg", "TEAMMSG"), ("tm", "TM"), ("tag", "TAG"), 
-                ("add", "ADD"), ("list", "LIST"), ("remove", "REMOVE"), ("me", "ME"), ("kill", "KILL"), ("gamemode", "GAMEMODE"), ("creative", "CREATIVE"), 
-                ("spectator", "SPECTATOR"), ("survival", "SURVIVAL"), ("adventure", "ADVENTURE"), ("function", "FUNCTION"), ("clear", "CLEAR"), ("difficulty", "DIFFICULTY"),
-                ("easy", "EASY"), ("normal", "NORMAL"), ("hard", "HARD"), ("peaceful", "PEACEFUL"), ("effect", "EFFECT"), ("give", "GIVE"), ("xp", "XP"), ("experience", "EXPERIENCE"),
-                ("add", "ADD"), ("set", "SET"), ("query", "QUERY"), ("levels", "LEVELS"), ("points", "POINTS"), ("seed", "SEED"))
-                .WithParserExtensions(new CommandParserExtension())
-                .WithBuiltInFuctions()
-                .WithInterpreterExtensions(new CommandInterpreterExtension(new MainFormOutput(this)));
+            LanguageSpecs specs = Language.Setup(this);
 
             Compiler.Run("<box>", textBox1Temp.Text, specs, new Interpreter.Context(new SymbolTable(), "<program>", null, new Position(), specs), new MainFormOutput(this));
         }
