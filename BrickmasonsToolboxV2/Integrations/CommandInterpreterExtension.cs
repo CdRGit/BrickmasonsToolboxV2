@@ -120,7 +120,7 @@ namespace BrickmasonsToolboxV2.Integrations
                     return res.Success(Value.NULL);
                 }
 
-                return res.Failure(new RuntimeError(n.level.start, n.level.end, "Count was meant to be a number", context));
+                return res.Failure(new RuntimeError(n.level.start, n.level.end, "Level was meant to be a number", context));
             }
             else
             {
