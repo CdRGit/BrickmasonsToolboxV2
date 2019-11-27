@@ -530,6 +530,11 @@ namespace BrickmasonsToolboxV2.Integrations
                 }
                 return res.Success(new EnchantNode(start, level.end, entity, enchantment, level));
             }
+            // Weather Command
+            if (currentToken.Matches("TT_KEYWORD", "WEATHER"))
+            {
+                // Weather clear|rain|thunder <duration>
+            }
 
 
             return res.Failure(new InvalidSyntaxError(currentToken.start, currentToken.end, "No command found"));

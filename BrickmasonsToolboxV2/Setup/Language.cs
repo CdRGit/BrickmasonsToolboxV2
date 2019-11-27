@@ -17,7 +17,7 @@ namespace BrickmasonsToolboxV2.Setup
                 ("add", "ADD"), ("list", "LIST"), ("remove", "REMOVE"), ("me", "ME"), ("kill", "KILL"), ("gamemode", "GAMEMODE"), ("creative", "CREATIVE"),
                 ("spectator", "SPECTATOR"), ("survival", "SURVIVAL"), ("adventure", "ADVENTURE"), ("function", "FUNCTION"), ("clear", "CLEAR"), ("difficulty", "DIFFICULTY"),
                 ("easy", "EASY"), ("normal", "NORMAL"), ("hard", "HARD"), ("peaceful", "PEACEFUL"), ("effect", "EFFECT"), ("give", "GIVE"), ("xp", "XP"), ("experience", "EXPERIENCE"),
-                ("add", "ADD"), ("set", "SET"), ("query", "QUERY"), ("levels", "LEVELS"), ("points", "POINTS"), ("seed", "SEED"), ("enchant", "ENCHANT"))
+                ("add", "ADD"), ("set", "SET"), ("query", "QUERY"), ("levels", "LEVELS"), ("points", "POINTS"), ("seed", "SEED"), ("enchant", "ENCHANT"), ("weather", "WEATHER"), ("rain", "RAIN"), ("thunder", "THUNDER"))
                 .WithParserExtensions(new CommandParserExtension())
                 .WithBuiltInFuctions()
                 .WithInterpreterExtensions(new CommandInterpreterExtension(new MainFormOutput(mainForm)));
