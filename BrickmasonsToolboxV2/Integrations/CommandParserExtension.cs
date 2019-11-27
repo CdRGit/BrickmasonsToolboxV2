@@ -534,6 +534,37 @@ namespace BrickmasonsToolboxV2.Integrations
             if (currentToken.Matches("TT_KEYWORD", "WEATHER"))
             {
                 // Weather clear|rain|thunder <duration>
+                res.RegisterAdvance();
+                Advance();
+                string weather = null;
+                if (currentToken.Matches("TT_KEYWORD", "CLEAR"))
+                {
+                    weather = "clear";
+                }
+                if (currentToken.Matches("TT_KEYWORD", "RAIN"))
+                {
+                    weather = "rain";
+                }
+                if (currentToken.Matches("TT_KEYWORD", "THUNDER"))
+                {
+                    weather = "thunder";
+                }
+                if (weather != null)
+                {
+                    Position end = currentToken.end;
+                    res.RegisterAdvance();
+                    Advance();
+
+                    Node duration = res.TryRegister(Expr());
+                    if (res.error != null) return res;
+                    if (duration == null)
+                    {
+                        Reverse(res.toReverseCount);
+                        return res.Success(new WeatherNode(start, end, weather, null));
+                    }
+                    end = duration.end;
+                    return res.Success(new WeatherNode(start, end, weather, duration));
+                }
             }
 
 

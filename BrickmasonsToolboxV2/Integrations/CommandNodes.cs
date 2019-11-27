@@ -276,4 +276,18 @@ namespace BrickmasonsToolboxV2.Integrations
             this.level = level;
         }
     }
+
+    public class WeatherNode : Node
+    {
+        internal string weather;
+        internal Node duration;
+
+        public WeatherNode(Position start, Position end, string weather, Node duration)
+        {
+            this.start = start;
+            this.end = end;
+            this.weather = weather;
+            this.duration = duration;
+        }
+    }
 }
