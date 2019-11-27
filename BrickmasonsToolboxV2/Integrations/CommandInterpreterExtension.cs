@@ -97,8 +97,34 @@ namespace BrickmasonsToolboxV2.Integrations
             {
                 return VisitEnchantNode(n as EnchantNode, context);
             }
+            if (n is WeatherNode)
+            {
+                return VisitWeatherNode(n as WeatherNode, context);
+            }
 
             return base.VisitExtension(n, context);
+        }
+
+        private Result VisitWeatherNode(WeatherNode n, Context context)
+        {
+            Result res = new Result();
+            if (n.duration == null)
+            {
+                fileOutput.WriteLine("weather " + n.weather);
+
+                return res.Success(Value.NULL);
+            }
+            Value duration = res.Register(Visit(n.duration, context));
+            if (res.ShouldReturn()) return res;
+
+            if (duration is Number)
+            {
+                fileOutput.WriteLine("weather " + n.weather + " " + duration.ToString());
+
+                return res.Success(Value.NULL);
+            }
+
+            return res.Failure(new RuntimeError(n.duration.start, n.duration.end, "Level was meant to be a number", context));
         }
 
         private Result VisitEnchantNode(EnchantNode n, Context context)
